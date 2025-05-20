@@ -2,11 +2,9 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import Event from "../models/event.js";
 
-const URL = "https://www.eventbrite.com.au/d/australia--sydney/all-events/";
-
 const fetchEventsAndSaveToDB = async (req, res) => {
   try {
-    const response = await axios.get(URL);
+    const response = await axios.get(process.env.URL);
     const html = response.data;
     const $ = cheerio.load(html);
     const events = [];

@@ -6,6 +6,7 @@ import eventRoutes from "./routes/eventRoute.js";
 import fetchEventsAndSaveToDB from "./scraper/scraper.js";
 import connectDB from "./config/db.js";
 import cron from "node-cron";
+import userRouter from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -14,11 +15,15 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/events", eventRoutes);
+app.use("/api/user", userRouter);
 
 connectDB();
 
 // Schedule scraper every 12 hours
 cron.schedule("0 */12 * * *", () => {
+  fetchEventsAndSaveToDB();
+});
+cron.schedule("0 */24 * * *", () => {
   fetchEventsAndSaveToDB();
 });
 

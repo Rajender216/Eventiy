@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt } from "react-icons/fa";
 
 const EventCard = ({ event }) => {
@@ -9,10 +10,26 @@ const EventCard = ({ event }) => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // Handle the email submission logic here
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URI}/api/user/save-email`,
+        {
+          email,
+        }
+      );
+      if (res.data.success) {
+        window.open(event.originalUrl, "_blank");
+      } else {
+        console.error("Error submitting email:");
+      }
+      setEmail("");
+    } catch (error) {
+      console.log("Error submitting email:", error);
+    }
     //open a new tab with the ticket link
-    window.open(event.originalUrl, "_blank");
     setIsModalOpen(false);
   };
 

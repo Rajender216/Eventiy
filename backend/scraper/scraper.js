@@ -35,19 +35,14 @@ const fetchEventsAndSaveToDB = async (req, res) => {
         source: "Eventbrite",
         imageUrl,
       });
-
-      console.log("Event data:", events);
     });
     const uniqueEvents = Array.from(
       new Map(events.map((item) => [item.title, item])).values()
     );
-
     Event.insertMany(uniqueEvents);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 };
-
-fetchEventsAndSaveToDB();
 
 export default fetchEventsAndSaveToDB;

@@ -1,7 +1,6 @@
 import Event from "../models/event.js";
 export const getAllEventsController = async (req, res) => {
   try {
-    console.log("helo");
     const events = await Event.find();
 
     if (!events || events.length === 0) {
